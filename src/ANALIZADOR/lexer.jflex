@@ -35,10 +35,10 @@ cadena_string="\""[^\"]*"\""
 "("             {return new Symbol(sym.parizq,yyline,yychar, yytext());} 
 ")"             {return new Symbol(sym.parder,yyline,yychar, yytext());}
 "$"             {return new Symbol(sym.dol,yyline,yychar, yytext());}
-"+"             {return new Symbol(sym.mas,yyline,yychar, yytext());} 
-"-"             {return new Symbol(sym.menos,yyline,yychar, yytext());} 
-"*"             {return new Symbol(sym.por,yyline,yychar, yytext());} 
-"/"             {return new Symbol(sym.dividido,yyline,yychar, yytext());} 
+"["             {return new Symbol(sym.corcheteabierto,yyline,yychar, yytext());}
+"]"             {return new Symbol(sym.corchetecerrado,yyline,yychar, yytext());}
+"{"             {return new Symbol(sym.llaveabierta,yyline,yychar, yytext());}
+"}"             {return new Symbol(sym.llavecerrada,yyline,yychar, yytext());}
 
 "definirglobales"   {return new Symbol(sym.defglobales,yyline,yychar, yytext());} 
 "generarreporteestadistico" {return new Symbol(sym.repesta,yyline,yychar, yytext());} 

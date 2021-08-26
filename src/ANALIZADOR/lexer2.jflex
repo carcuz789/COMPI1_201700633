@@ -20,43 +20,58 @@ BLANCOS=[ \r\t]+
 D=[0-9]+
 DD=[0-9]+("."[  |0-9]+)?
 id ={L}({L}|{D}|{"_"})*
-
+comentariolinea ="//"(.)* 
 
 
 
 %%
 
-"calcular"      {return new Symbol(sym.calcular,yyline,yychar,yytext());} 
+"class"      {return new Symbol(sym.calcular,yyline,yychar,yytext());} 
+"var"        {return new Symbol(sym.var,yyline,yychar, yytext());}
+"let"         {return new Symbol(sym.let,yyline,yychar, yytext());}
+"const"      {return new Symbol(sym.const,yyline,yychar, yytext());}
+"if"         {return new Symbol(sym.if,yyline,yychar, yytext());}
+"else"       {return new Symbol(sym.else,yyline,yychar, yytext());}
+"for"        {return new Symbol(sym.for,yyline,yychar, yytext());}
+"while"      {return new Symbol(sym.while,yyline,yychar, yytext());}
+"do"         {return new Symbol(sym.do,yyline,yychar, yytext());}
+"switch"     {return new Symbol(sym.switch,yyline,yychar, yytext());}
+"case"       {return new Symbol(sym.case,yyline,yychar, yytext());}
+"default"    {return new Symbol(sym.default,yyline,yychar, yytext());}
+"break"      {return new Symbol(sym.break,yyline,yychar, yytext());}
+"require"    {return new Symbol(sym.require,yyline,yychar, yytext());}
 
-":"
-";"             {return new Symbol(sym.ptcoma,yyline,yychar, yytext());} 
+
+"{"             {return new Symbol(sym.llaveabierta,yyline,yychar, yytext());}
+"}"             {return new Symbol(sym.llavecerrada,yyline,yychar, yytext());}
 "("             {return new Symbol(sym.parizq,yyline,yychar, yytext());} 
 ")"             {return new Symbol(sym.parder,yyline,yychar, yytext());}
-"$"             {return new Symbol(sym.dol,yyline,yychar, yytext());}
-"+"             {return new Symbol(sym.mas,yyline,yychar, yytext());} 
-"-"             {return new Symbol(sym.menos,yyline,yychar, yytext());} 
-"*"             {return new Symbol(sym.por,yyline,yychar, yytext());} 
-"/"             {return new Symbol(sym.dividido,yyline,yychar, yytext());} 
-
-"definirglobales"   {return new Symbol(sym.defglobales,yyline,yychar, yytext());} 
-"generarreporteestadistico" {return new Symbol(sym.repesta,yyline,yychar, yytext());} 
-"compare"   {return new Symbol(sym.compare,yyline,yychar, yytext());} 
-"graficabarras"  {return new Symbol(sym.graficabarras,yyline,yychar, yytext());} 
-"titulo"  {return new Symbol(sym.titulo,yyline,yychar, yytext());} 
-"ejex"  {return new Symbol(sym.ejex,yyline,yychar, yytext());} 
-"valores"  {return new Symbol(sym.valores,yyline,yychar, yytext());} 
-"titulox"  {return new Symbol(sym.titulox,yyline,yychar, yytext());} 
-"tituloy"  {return new Symbol(sym.tituloy,yyline,yychar, yytext());} 
-"graficapie" {return new Symbol(sym.graficapie,yyline,yychar, yytext());} 
-"graficalineas" {return new Symbol(sym.graficalienas,yyline,yychar, yytext());} 
+"="             {return new Symbol(sym.igual,yyline,yychar, yytext());}
+"=="             {return new Symbol(sym.igualigual,yyline,yychar, yytext());}
+"&&"             {return new Symbol(sym.and,yyline,yychar, yytext());}
+"||"             {return new Symbol(sym.or,yyline,yychar, yytext());}
+">"              {return new Symbol(sym.mayor,yyline,yychar, yytext());}
+"<"              {return new Symbol(sym.menor,yyline,yychar, yytext());}
+"%"              {return new Symbol(sym.modulo,yyline,yychar, yytext());}
+"!="             {return new Symbol(sym.diferente,yyline,yychar, yytext());}
+"!"              {return new Symbol(sym.not,yyline,yychar, yytext());}
+">="             {return new Symbol(sym.mayorigual,yyline,yychar, yytext());}
+"<="             {return new Symbol(sym.menorigual,yyline,yychar, yytext());}
+";"              {return new Symbol(sym.puntoycoma,yyline,yychar, yytext());}
+"-"              {return new Symbol(sym.menos,yyline,yychar, yytext());}
+"+"              {return new Symbol(sym.mas,yyline,yychar, yytext());}
+"*"               {return new Symbol(sym.por,yyline,yychar, yytext());}
 
 
 \n              {yychar=1;}
 
 {BLANCOS}       {} 
+{comentariolinea} {}
 {D}             {return new Symbol(sym.entero,yyline,yychar, yytext());} 
 {DD}            {return new Symbol(sym.decimal,yyline,yychar, yytext());} 
 {id}            {return new Symbol (sym.id ,yyline,yychar,yytext());}  
+
+
 . {
     System.out.println("Este es un error lexico: "+yytext()+", en la linea: "+yyline+", en la columna: "+yychar);
 }
