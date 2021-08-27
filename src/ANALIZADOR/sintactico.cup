@@ -21,64 +21,14 @@ parser code
 }
 :};
 
-terminal  String       interrogacion,  orlogico, Suma,  enie, Multiplicacion,   
-    Ascii,    dospuntos,    coma,    punto,    conj,    FLECHA,    textocomillas,      
-       Llave_a,    Llave_c,     porcentaje,       P_coma,    Identificador,    Numero,ERROR;
+terminal calcular,ptcoma,parizq,parder,dol,corcheteabierto,corchetecerrado,llaveabierta,llavecerrada,
+definirglobales,generarreporteestadistico,compare,graficabarras,titulo,ejex,valores,titulox,tituloy,graficapie,graficalienas,
+entero,decimal,id,cadenastring,CARACTER;
 
-non terminal String INICIO ,B,C,E,L,N,D,F,R;
+non terminal String INICIO ,GR,DG,GB,GP,GL;
 
 start with INICIO;
 
 INICIO ::= 
         Llave_a  B Llave_c {: :} 
         |ERROR {: :} ;
-
-B ::= 
-      B C {: :} |
-      C {: :}|
-      B E {: :}|
-      E {: :}|
-      B L {: :}|
-      L {: :}|
-      B porcentaje {: :}|
-      porcentaje {: :} |
-      ERROR {: :} ;
-
-C ::= 
-   conj dospuntos Identificador:ihi  FLECHA N P_coma {:  String id = ihi; parser.Macros.add(new Expresion_Lexema(id , parser.conca)); parser.conca=""; :};
-
-N ::= Ascii:as enie:asc Ascii:asb {: parser.conca = as + asc + asb; :}|
-     Identificador:ix enie:ixc Identificador:ixs {: parser.conca = ix + ixc + ixs; :} |
-     Numero:nx enie:nxa Numero:nxv {:parser.conca = nx + nxa + nxv; :} |
-     D  {: :} |
-     F  {: :} ;
-
-D ::= 
-    D  Numero:ns coma:cm {: parser.conca += ns + cm;:}  |
-    Numero:bn {: parser.conca += bn; :} ;
-
-F ::=  
-    F Identificador:idx coma:isc {: parser.conca += idx + isc ;:} |
-    Identificador:sfs {: parser.conca += sfs; :} ;
-
-E ::= 
-    Identificador:ids FLECHA R P_coma {: String id = ids; parser.ExpresionesRegulares.add(new Expresion_Lexema(id , parser.concat)); parser.concat=""; :} ;
-
-R ::=  
-       R Llave_a:lla Identificador:idp Llave_c:llax {: parser.concat+= lla+idp+llax; :}|
-       Llave_a:sks Identificador:idh Llave_c:ssks {:parser.concat+=sks+idh+ssks; :} |
-       R Multiplicacion:mul {:parser.concat+=mul; :}|
-       Multiplicacion:maul {:parser.concat+=maul; :} |       
-       R  textocomillas:cm {:parser.concat+=cm; :}|
-       textocomillas:cas {:parser.concat+=cas; :}|
-       R Suma:s {: parser.concat+=s;:}|
-       Suma:su {: parser.concat+=su;:}|
-       R orlogico:ors {: parser.concat+=ors;:} |
-       orlogico:nor {: parser.concat+=nor;:} |
-       R punto:pntos {:parser.concat+=pntos; :} |
-       punto:asps {: parser.concat+=asps;:} |
-       R interrogacion:ints {:parser.concat+=ints; :} |
-       interrogacion:lals {: parser.concat+=lals;:} ;
-L ::=
-     Identificador:sas dospuntos textocomillas:txa P_coma {: String id = sas; String lol= txa; parser.Lexemas.add(new Expresion_Lexema(id , lol)); parser.conca=""; :} ;
-
