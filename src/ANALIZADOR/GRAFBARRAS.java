@@ -10,11 +10,11 @@ import java.util.ArrayList;
  * @author carcu
  */
 public class GRAFBARRAS {
-    private String titulo;
-    private ArrayList<String> EJEX = new ArrayList<String>();
-    private  ArrayList<String> VALORES = new ArrayList<String>();
-    private String titulox;
-    private String tituloy;
+        private String titulo;
+        private ArrayList<String> EJEX = new ArrayList<String>();
+        private  ArrayList<String> VALORES = new ArrayList<String>();
+        private String titulox;
+        private String tituloy;
 
     public String getTitulo() {
         return titulo;

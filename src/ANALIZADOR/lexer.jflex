@@ -30,7 +30,8 @@ CARACTER = "'" [^\'\n]* "'"
 
 "calcular"      {return new Symbol(sym.calcular,yyline,yychar,yytext());} 
 
-":"
+":"              {return new Symbol(sym.dospuntos,yyline,yychar, yytext());}
+","              {return new Symbol(sym.coma,yyline,yychar, yytext());}
 ";"             {return new Symbol(sym.ptcoma,yyline,yychar, yytext());} 
 "("             {return new Symbol(sym.parizq,yyline,yychar, yytext());} 
 ")"             {return new Symbol(sym.parder,yyline,yychar, yytext());}

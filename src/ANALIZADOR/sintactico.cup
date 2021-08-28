@@ -8,9 +8,10 @@ parser code
     private Symbol s;
     public String conca="";
     public String concat="";
-    public LinkedList<Expresion_Lexema> Lexemas = new LinkedList<>();
-    public LinkedList<Expresion_Lexema> Macros = new LinkedList<>();
-    public LinkedList<Expresion_Lexema> ExpresionesRegulares = new LinkedList<>();
+    public GRAFBARRAS GRAFICABARRAS = new GRAFBARRAS();
+    public GRAFLINEAS GRAFICALINEAS = new GRAFLINEAS();
+    public GRAFPIE GRAFICAPIE = new GRAFICAPIE();
+    public LinkedList<VARGLOB> VARIABLESGLOBALES = new LinkedList<>();
 
     public void syntax_error(Symbol s){
         this.s = s;
@@ -23,12 +24,26 @@ parser code
 
 terminal calcular,ptcoma,parizq,parder,dol,corcheteabierto,corchetecerrado,llaveabierta,llavecerrada,
 definirglobales,generarreporteestadistico,compare,graficabarras,titulo,ejex,valores,titulox,tituloy,graficapie,graficalienas,
-entero,decimal,id,cadenastring,CARACTER;
+entero,decimal,id,cadenastring,CARACTER,dospuntos,coma;
 
 non terminal String INICIO ,GR,DG,GB,GP,GL;
 
 start with INICIO;
 
 INICIO ::= 
-        Llave_a  B Llave_c {: :} 
+         INICIO generarreporteestadistico  llaveabierta GR  llavecerrada{: :} 
+        |generarreporteestadistico  llaveabierta GR  llavecerrada {: :} 
         |ERROR {: :} ;
+GR ::=
+     GR definirglobales llaveabierta  DG llavecerrada {: :} |
+     GR compare parizq CARACTER coma CARACTER parder ptcoma {: :}|
+     GR graficabarras llaveabierta GB llavecerrada {: :} |
+     GR graficapie llaveabierta GP llavecerrada {: :} |
+     GR graficalienas llaveabierta GL llavecerrada {: :} |
+     definirglobales llaveabierta  DG llavecerrada {: :} |
+     compare parizq CARACTER coma CARACTER parder ptcoma {: :}|
+     graficabarras llaveabierta GB llavecerrada {: :} |
+     graficapie llaveabierta GP llavecerrada {: :} |
+     graficalienas llaveabierta GL llavecerrada {: :} |
+     ERROR {: :} ;
+     
