@@ -16,6 +16,12 @@ public class GRAFPIE {
     private ArrayList<String> EJEX = new ArrayList<String>();
     private  ArrayList<String> VALORES = new ArrayList<String>();
 
+    public GRAFPIE(String titulo, ArrayList<String> EJEX,ArrayList<String> VALORES) {
+        this.titulo = titulo;
+        this.EJEX = EJEX;
+        this.VALORES = VALORES;
+    }
+
     public String getTitulo() {
         return titulo;
     }

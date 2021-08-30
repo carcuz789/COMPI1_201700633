@@ -3,7 +3,7 @@ import java_cup.runtime.Symbol;
 
 %%
 
-%class lexico
+%class lexico2
 %public 
 %line 
 %char 
@@ -17,16 +17,18 @@ import java_cup.runtime.Symbol;
 %init} 
 
 BLANCOS=[ \r\t]+
-D=[0-9]+
+
 DD=[0-9]+("."[  |0-9]+)?
 id ={L}({L}|{D}|{"_"})*
 comentariolinea ="//"(.)* 
+COMENTARIOMULTI = "/*" [^/] ~"*/" | "/*" "/"+ "*/"
+console ="console.log"
 
 
 
 %%
 
-"class"      {return new Symbol(sym.calcular,yyline,yychar,yytext());} 
+"class"      {return new Symbol(sym.class,yyline,yychar,yytext());} 
 "var"        {return new Symbol(sym.var,yyline,yychar, yytext());}
 "let"         {return new Symbol(sym.let,yyline,yychar, yytext());}
 "const"      {return new Symbol(sym.const,yyline,yychar, yytext());}
@@ -66,11 +68,11 @@ comentariolinea ="//"(.)*
 \n              {yychar=1;}
 
 {BLANCOS}       {} 
-{comentariolinea} {}
-{D}             {return new Symbol(sym.entero,yyline,yychar, yytext());} 
+{comentariolinea} {return new Symbol(sym.comlin,yyline,yychar, yytext());}
+{COMENTARIOMULTI} {return new Symbol(sym.commul,yyline,yychar, yytext());}
 {DD}            {return new Symbol(sym.decimal,yyline,yychar, yytext());} 
 {id}            {return new Symbol (sym.id ,yyline,yychar,yytext());}  
-
+{console}        {return new Symbol (sym.consolelog ,yyline,yychar,yytext());}  
 
 . {
     System.out.println("Este es un error lexico: "+yytext()+", en la linea: "+yyline+", en la columna: "+yychar);

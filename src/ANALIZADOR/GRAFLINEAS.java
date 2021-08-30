@@ -12,5 +12,26 @@ package ANALIZADOR;
 public class GRAFLINEAS {
      private String titulo;
      private String archivo;
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(String archivo) {
+        this.archivo = archivo;
+    }
+
+    public GRAFLINEAS(String titulo, String archivo) {
+        this.titulo = titulo;
+        this.archivo = archivo;
+    }
      
 }

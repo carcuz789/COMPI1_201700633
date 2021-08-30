@@ -14,6 +14,12 @@ public class VARGLOB {
     private String id ;
     private String valor;
 
+    public VARGLOB(String tipo, String id, String valor) {
+        this.tipo = tipo;
+        this.id = id;
+        this.valor = valor;
+    }
+
     public String getTipo() {
         return tipo;
     }
