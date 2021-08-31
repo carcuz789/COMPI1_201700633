@@ -10,9 +10,15 @@ parser code
     public String conca="";
     public String concat="";
     public LinkedList<VARGLOB> VARIABLESGLOBALES = new LinkedList<>();
+    public LinkedList<METODO> METODOS = new LinkedList<>();
     public LinkedList<String> COMS = new LinkedList<>();
     public LinkedList<String> COMM = new LinkedList<>();
     public CLASE CLA = new CLASE();
+    public METODO met;
+    public int metodos = 0;
+    public int lineas =0;
+    public int cantparametros =0;
+    public int lineasmetodo =0;
     public void syntax_error(Symbol s){
         this.s = s;
     }
@@ -24,20 +30,81 @@ parser code
 
 terminal  String    class,var,let,const,if,else,for,while,do,switch,case,default,break,require,llaveabierta,llavecerrada,parizq,
 parder,igual,igualigual,and,or,mayor,menor,modulo,diferente,not,mayorigual,menorigual,puntoycoma,menos,mas,por,
-comlin,commul,decimal,id,consolelog   ;
+comlin,commul,decimal,id,consolelog ,coma,cadenas,division,potencia  ;
 
-non terminal String INICIO ,CLS ;
+non terminal String INICIO ,CLS ,LISTAD,LFUNC ,IFF , FO, WH, DO, SW,FUNC,MET,METP,CLS,VAR,LISTA,SENT,S,E;
 
 start with INICIO;
 
 INICIO ::= 
-        class id llaveabierta CLS {: :}|
-        INICIO comlin {: :} |
-        INICIO commul {: :} |
-        comlin {: :} |
-        commul {: :} |
+        class id:idc llaveabierta CLS {: String id=idc;  parser.CLA.setId(id); parser.lineas++; :}|
+        INICIO comlin:cml {: String com = cml; parser.COMS.add(com); parser.lineas++; :} |
+        INICIO commul:cmm {: String com2 = cmm; parser.COMM.add(com2); parser.lineas++; :} |
+        comlin:cml1 {: String com3 = cml1; parser.COMS.add(com3); parser.lineas++; :} |
+        commul:cmm2 {:String com4 = cmm2; parser.COMM.add(com4); parser.lineas++; :} |
         ERROR {: :} ;
 
 CLS ::=
-    
+    CLS METP {: :} |
+    CLS MET {: :} |
+    CLS VAR {: :}|
+    CLS LFUNC {: :}|
+    CLS comlin:cml1 {: String com3 = cml1; parser.COMS.add(com3); parser.lineas++; :} |
+    CLS commul:cmm2 {:String com4 = cmm2; parser.COMM.add(com4); parser.lineas++; :} |
     llavecerrada {::};
+
+METP ::= 
+    id:id1 parizq  LISTA  parder llaveabierta SENT  {: String id= id1; parser.METODOS.add(new METODO(id,parser.cantparametros,parser.lineasmetodo)); parser.metodos++; parser.cantparametros=0; parser.lineasmetodo=0; :} |
+    id:id2 parizq  parder llaveabierta  SENT {: String id= id2; parser.METODOS.add(new METODO(id,parser.cantparametros,parser.lineasmetodo)); parser.metodos++; parser.cantparametros=0; parser.lineasmetodo=0; :} ;
+
+
+LISTA ::=
+      LISTA coma id {: parser.cantparametros++; :} |
+      id {: parser.cantparametros++; :};
+
+LISTAD ::=
+      LISTAD coma cadenas {:  :} |
+      LISTAD coma decimal {: :} |
+      decimal {:  :} |
+      cadenas {:  :};
+
+SENT ::=
+        SENT VAR
+        SENT IFF
+        SENT FO
+        SENT WH
+        SENT DO
+        SENT SW
+        SENT LFUNC
+        llavecerrada {::};
+
+VAR ::= 
+        var id igual S {: :} |
+        let id igual S {: :} |
+        const id igual S {: :} |
+        id igual S {: :} ;
+
+S ::= E {: :} |
+      E puntoycoma {: :} |
+      puntoycoma {::};
+
+E ::= E and E {: :} |
+      E or E {: :} |
+      E igualigual E {: :} |
+      E diferente E {: :} |
+      E menorigual E {: :} |
+      E mayorigual E {: :} |
+      E menor E {: :} |
+      E mayor E {: :} |
+      E division E {: :} |
+      E potencia E {: :} |
+      E por E {: :} |
+      E modulo E {: :} |
+      E mas E {: :} |
+      E menos E {: :} |
+      not E {: :} |
+      menos E {: :} |
+      cadenas {: :} |
+      decimal {: :} |
+      require parizq cadenas  parder {: :} |
+      

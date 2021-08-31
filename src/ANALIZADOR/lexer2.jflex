@@ -17,7 +17,7 @@ import java_cup.runtime.Symbol;
 %init} 
 
 BLANCOS=[ \r\t]+
-
+cadenas="\""[^\"]*"\""
 DD=[0-9]+("."[  |0-9]+)?
 id ={L}({L}|{D}|{"_"})*
 comentariolinea ="//"(.)* 
@@ -62,12 +62,15 @@ console ="console.log"
 ";"              {return new Symbol(sym.puntoycoma,yyline,yychar, yytext());}
 "-"              {return new Symbol(sym.menos,yyline,yychar, yytext());}
 "+"              {return new Symbol(sym.mas,yyline,yychar, yytext());}
-"*"               {return new Symbol(sym.por,yyline,yychar, yytext());}
-
+"*"              {return new Symbol(sym.por,yyline,yychar, yytext());}
+","              {return new Symbol(sym.coma,yyline,yychar, yytext());}
+"/"              {return new Symbol(sym.division,yyline,yychar, yytext());}
+"**"              {return new Symbol(sym.potencia,yyline,yychar, yytext());}
 
 \n              {yychar=1;}
 
-{BLANCOS}       {} 
+{BLANCOS}       {}
+{cadenas} {return new Symbol(sym.cadenas,yyline,yychar, yytext());} 
 {comentariolinea} {return new Symbol(sym.comlin,yyline,yychar, yytext());}
 {COMENTARIOMULTI} {return new Symbol(sym.commul,yyline,yychar, yytext());}
 {DD}            {return new Symbol(sym.decimal,yyline,yychar, yytext());} 

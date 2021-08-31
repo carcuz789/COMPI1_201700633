@@ -28,7 +28,7 @@ parser code
 terminal calcular,ptcoma,parizq,parder,dol,archivo,corcheteabierto,corchetecerrado,llaveabierta,llavecerrada,
 definirglobales,generarreporteestadistico,compare,graficabarras,titulo,ejex,valores,titulox,tituloy,graficapie,graficalienas,decimal,id,cadenastring,CARACTER,dospuntos,coma,string ,double,igual,pgen,pesp;
 
-non terminal String INICIO ,GR,DG,GB,GP,GL,EJX;
+non terminal String INICIO ,GR,DG,GB,GP,GL,EJXB,VALB,EJXP,VALP;
 
 start with INICIO;
 
@@ -151,10 +151,10 @@ VALP::=
 
 
 GL ::=
-     GP titulo dospuntos id:idtit  ptcoma {: String id = idtit; parser.GRAFICALINEAS.setTitulo(id); :} |
-     GP titulo dospuntos cadena_string:idtit1  ptcoma {: String id = idtit1; parser.GRAFICALINEAS.setTitulo(id); :} |
-     GP archivo dospuntos id:idtit2  ptcoma {: String id = idtit2; parser.GRAFICALINEAS.setTitulo(id); :} |
-     GP archivo dospuntos cadena_string:idtit3  ptcoma {: String id = idtit3; parser.GRAFICALINEAS.setTitulo(id); :} |
+     GL titulo dospuntos id:idtit  ptcoma {: String id = idtit; parser.GRAFICALINEAS.setTitulo(id); :} |
+     GL titulo dospuntos cadena_string:idtit1  ptcoma {: String id = idtit1; parser.GRAFICALINEAS.setTitulo(id); :} |
+     GL archivo dospuntos id:idtit2  ptcoma {: String id = idtit2; parser.GRAFICALINEAS.setTitulo(id); :} |
+     GL archivo dospuntos cadena_string:idtit3  ptcoma {: String id = idtit3; parser.GRAFICALINEAS.setTitulo(id); :} |
      titulo dospuntos id:idtit  ptcoma {: String id = idtit; parser.GRAFICALINEAS.setTitulo(id); :} |
      titulo dospuntos cadena_string:idtit1  ptcoma {: String id = idtit1; parser.GRAFICALINEAS.setTitulo(id); :} |
      archivo dospuntos id:idtit2  ptcoma {: String id = idtit2; parser.GRAFICALINEAS.setTitulo(id); :} |
