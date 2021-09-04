@@ -1,0 +1,153 @@
+
+
+package ANALIZADOR;
+
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+
+parser code
+{:
+    private Symbol s;
+   
+  
+    public  LinkedList<String> VARIABLES = new LinkedList<>();
+    public  LinkedList<METODO> METODOS = new LinkedList<>();
+    public CLASE CLASS ;
+   
+    
+    public void syntax_error(Symbol s){
+        this.s = s;
+    }
+
+    public Symbol getS(){
+        return this.s;
+}
+:};
+
+terminal  String   classs,varr,lett,constt,iff,elsee,forr,whilee,
+doo,switchh,casee,defaultt,breakk,requiree,llaveabierta,llavecerrada,
+parizq,parder,igual,igualigual,and,or,mayor,menor,modulo,diferente,not,
+mayorigual,menorigual,puntoycoma,menos,mas,por,coma,division,potencia,dospuntos,
+truee,falsee,cadenas,decimal,id,consolelog;
+
+non terminal String INICIO,CLASE,CUERPOCLASE,METODO,DECLARACION,CUERPOGEN,IFG
+,FO,WH,SW,LFUNC,TIPODECLARACION,ELS,CAS ,DEF,LISTAD,LISTADOCASE,TBRE,DO,E,EXPRESIONES;
+non terminal Double PARAMETROS;
+precedence left mas,menos;
+precedence left por,division,modulo;
+precedence right not;
+precedence left potencia;
+precedence left and,or,igualigual,mayorigual,menorigual,diferente,mayor,menor;
+
+start with INICIO;
+
+INICIO ::= CLASE;
+
+CLASE::= classs id:IDX llaveabierta:abi CUERPOCLASE:arrmet llavecerrada:cerr{:CLASS = new CLASE(IDX,cerrleft-abileft,METODOS,VARIABLES);:};
+
+CUERPOCLASE::= CUERPOCLASE METODO
+              |CUERPOCLASE DECLARACION
+              |METODO
+              |DECLARACION;
+
+METODO::= id:ID1 parizq PARAMETROS:NOPAR parder llaveabierta:CONT CUERPOGEN llavecerrada:CONT2{:METODOS.add(new METODO(ID1,NOPAR,CONT2left-CONTleft));:}
+         |id:ID2 parizq parder llaveabierta:CONT3 CUERPOGEN llavecerrada:CONT4{:METODOS.add(new METODO(ID2,0.0,CONT4left-CONT3left)); :};
+
+PARAMETROS::=PARAMETROS:PAR coma id{:RESULT = PAR+1.0;:}
+            |id{:RESULT = 1.0; :};
+
+CUERPOGEN::=    CUERPOGEN DECLARACION
+               |CUERPOGEN IFG
+               |CUERPOGEN FO
+               |CUERPOGEN WH
+               |CUERPOGEN DO
+               |CUERPOGEN SW
+               |CUERPOGEN LFUNC
+               |CUERPOGEN consolelog parizq E parder puntoycoma 
+               |CUERPOGEN TBRE
+               |IFG
+               |FO
+               |WH
+               |DO
+               |SW
+               |LFUNC
+               |consolelog parizq EXPRESIONES parder puntoycoma
+               |DECLARACION
+               |TBRE ;
+
+
+TIPODECLARACION::=varr
+                |lett
+                |constt;
+
+DECLARACION::= TIPODECLARACION id:id1 puntoycoma {: String id= id1; VARIABLES.add(id); :}
+              |TIPODECLARACION id:id2 igual E puntoycoma{:String id= id2; VARIABLES.add(id);:};
+
+EXPRESIONES::= E and E  
+              |E or E 
+              |E igualigual E 
+              |E diferente E 
+              |E menorigual E 
+              |E mayorigual E 
+              |E menor E 
+              |E mayor E 
+              |E division E 
+              |E potencia E 
+              |E por E 
+              |E modulo E 
+              |E mas E 
+              |E menos E 
+              |not E              
+              |cadenas 
+              |decimal          
+              |id mas mas 
+              |id menos menos 
+              |id 
+              |truee 
+              |falsee   
+              |requiree parizq cadenas  parder  ;
+
+IFG::= iff parizq E parder llaveabierta CUERPOGEN llavecerrada
+      |iff parizq E parder llaveabierta CUERPOGEN elsee llaveabierta CUERPOGEN llavecerrada
+      |iff parizq E parder llaveabierta CUERPOGEN ELS  llavecerrada
+      |iff parizq E parder llaveabierta CUERPOGEN ELS elsee llaveabierta CUERPOGEN llavecerrada ;
+
+ELS::= ELS elsee iff parizq E parder llaveabierta CUERPOGEN llavecerrada
+      |elsee iff parizq E parder llaveabierta CUERPOGEN llavecerrada;
+
+
+       
+
+TBRE::= breakk
+       |breakk puntoycoma;
+
+FO::= forr parizq DECLARACION puntoycoma E puntoycoma E parder llaveabierta CUERPOGEN llavecerrada ;
+
+
+
+
+WH::= whilee  parizq E  parder llaveabierta CUERPOGEN llavecerrada;
+
+
+
+
+
+DO::= doo llaveabierta CUERPOGEN whilee parizq E  parder puntoycoma  ;
+
+SW::= switchh parizq  E parder  llaveabierta LISTADOCASE DEF llavecerrada ;
+
+CAS ::=  casee E dospuntos CUERPOGEN 
+        |casee E dospuntos  ;
+
+LISTADOCASE ::= LISTADOCASE CAS 
+              |CAS;
+
+
+DEF ::= defaultt dospuntos CUERPOGEN
+       |defaultt dospuntos ;
+
+LFUNC ::= id parizq LISTAD parder puntoycoma  ;
+
+LISTAD ::= coma E 
+          |E ;
+

@@ -5,6 +5,8 @@
  */
 package ANALIZADOR;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author carcu
@@ -19,14 +21,6 @@ public class CLASE {
         this.id = id;
     }
 
-    public int getCantmetodos() {
-        return cantmetodos;
-    }
-
-    public void setCantmetodos(int cantmetodos) {
-        this.cantmetodos = cantmetodos;
-    }
-
     public int getLineas() {
         return lineas;
     }
@@ -35,7 +29,15 @@ public class CLASE {
         this.lineas = lineas;
     }
     private String id;
-    private int cantmetodos;
+    private  LinkedList<METODO> METODOS = new LinkedList<>();
+     private  LinkedList<String> VARIABLES = new LinkedList<>();
+
+    public CLASE(String id, int lineas,LinkedList<METODO> METODOS,LinkedList<String> VARIABLES) {
+        this.id = id;
+        this.lineas = lineas;
+        this.METODOS=METODOS;
+        this.VARIABLES = VARIABLES;
+    }
     private int lineas;
     
     

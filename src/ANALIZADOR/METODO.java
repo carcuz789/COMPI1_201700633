@@ -12,7 +12,7 @@ package ANALIZADOR;
 public class METODO {
      private String id;
 
-    public METODO(String id, int parametros, int lineas) {
+    public METODO(String id, Double parametros, int lineas) {
         this.id = id;
         this.parametros = parametros;
         this.lineas = lineas;
@@ -26,11 +26,11 @@ public class METODO {
         this.id = id;
     }
 
-    public int getParametros() {
+    public Double getParametros() {
         return parametros;
     }
 
-    public void setParametros(int parametros) {
+    public void setParametros(Double parametros) {
         this.parametros = parametros;
     }
 
@@ -41,7 +41,7 @@ public class METODO {
     public void setLineas(int lineas) {
         this.lineas = lineas;
     }
-     private int parametros;
+     private Double parametros;
      private int lineas;
     
 }

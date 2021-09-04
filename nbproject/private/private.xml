@@ -4,8 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/ANALIZADOR/sintactico.cup</file>
-            <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/compiproyecto1/PRINCIPAL.java</file>
+            <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/ANALIZADOR/VARGLOB.java</file>
+            <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/ANALIZADOR/lexer2.jflex</file>
+            <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/ANALIZADOR/GRAFBARRAS.java</file>
+            <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/ANALIZADOR/GRAFPIE.java</file>
+            <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/ANALIZADOR/METODO.java</file>
+            <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/ANALIZADOR/GRAFLINEAS.java</file>
             <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/ANALIZADOR/lexer.jflex</file>
+            <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/ANALIZADOR/generador.java</file>
+            <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/ANALIZADOR/sintactico2.cup</file>
+            <file>file:/C:/Users/carcu/Music/COMPIPROYECTO1/src/ANALIZADOR/CLASE.java</file>
         </group>
     </open-files>
 </project-private>

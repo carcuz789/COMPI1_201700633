@@ -1,9 +1,10 @@
-package ANALIZADOR;
+package ANALIZADOR2;
 import java_cup.runtime.Symbol; 
 
 %%
 
-%class lexico
+%class LEXER1
+%type java_cup.runtime.Symbol
 %public 
 %line 
 %char 
@@ -16,28 +17,33 @@ import java_cup.runtime.Symbol;
     yychar = 1; 
 %init} 
 
-BLANCOS=[ \s,\t,\r,\n]+
 
+BLANCOS=[ \s,\t,\r,\n]+
+L=[a-zA-Z_]+
+D=[0-9]+
 DD=[0-9]+("."[  |0-9]+)?
-id ={L}({L}|{D}|{"_"})*
+
+L=[a-zA-Z_]+
+D=[0-9]+
+id ={L}({L}|{D}|"_")*
+
 comentariolinea ="##"(.)* 
-cadena_string="\""[^\"]*"\""
+cadenastring="\""[^\"]*"\""
 COMENTARIOMULTI = "#*" [^/] ~"*#" | "#*" "/"+ "*#"
-CARACTER = "'" [^\'\n]* "'"
+
 PGENERAL = "${PuntajeGeneral}"
-PESPECIFICO = "$" "{" "PuntajeEspecifico" "," {cadena_string} "," {cadena_string} "," {cadena_string} "}"
+PESPECIFICO = "$" "{" "PuntajeEspecifico" "," {cadenastring} "," {cadenastring} "," {cadenastring} "}"
 
 %%
 
-"calcular"      {return new Symbol(sym.calcular,yyline,yychar,yytext());} 
 
-":"              {return new Symbol(sym.dospuntos,yyline,yychar, yytext());}
-"="              {return new Symbol(sym.igual,yyline,yychar, yytext());}
-","              {return new Symbol(sym.coma,yyline,yychar, yytext());}
+
+":"             {return new Symbol(sym.dospuntos,yyline,yychar, yytext());}
+"="             {return new Symbol(sym.igual,yyline,yychar, yytext());}
+","             {return new Symbol(sym.coma,yyline,yychar, yytext());}
 ";"             {return new Symbol(sym.ptcoma,yyline,yychar, yytext());} 
 "("             {return new Symbol(sym.parizq,yyline,yychar, yytext());} 
 ")"             {return new Symbol(sym.parder,yyline,yychar, yytext());}
-"$"             {return new Symbol(sym.dol,yyline,yychar, yytext());}
 "["             {return new Symbol(sym.corcheteabierto,yyline,yychar, yytext());}
 "]"             {return new Symbol(sym.corchetecerrado,yyline,yychar, yytext());}
 "{"             {return new Symbol(sym.llaveabierta,yyline,yychar, yytext());}
@@ -55,11 +61,11 @@ PESPECIFICO = "$" "{" "PuntajeEspecifico" "," {cadena_string} "," {cadena_string
 "graficapie" {return new Symbol(sym.graficapie,yyline,yychar, yytext());} 
 "graficalineas" {return new Symbol(sym.graficalienas,yyline,yychar, yytext());} 
 "string"    {return new Symbol(sym.string,yyline,yychar, yytext());}
-"dobule"    {return new Symbol(sym.double,yyline,yychar, yytext());}
+"double"    {return new Symbol(sym.doublee,yyline,yychar, yytext());}
 "archivo"    {return new Symbol(sym.archivo,yyline,yychar, yytext());}
 
 
-\n              {yychar=1;}
+
 
 {BLANCOS}       {} 
 {comentariolinea} {}
@@ -68,8 +74,8 @@ PESPECIFICO = "$" "{" "PuntajeEspecifico" "," {cadena_string} "," {cadena_string
 {PESPECIFICO}             {return new Symbol(sym.pesp,yyline,yychar, yytext());} 
 {DD}            {return new Symbol(sym.decimal,yyline,yychar, yytext());} 
 {id}            {return new Symbol (sym.id ,yyline,yychar,yytext());}  
-{cadena_string} {return new Symbol (sym.cadenastring ,yyline,yychar,yytext());}  
-{CARACTER}      {return new Symbol (sym.CARACTER ,yyline,yychar,yytext());}  
+{cadenastring} {return new Symbol (sym.cadenastring ,yyline,yychar,yytext());}  
+
 . 
 {
     System.out.println("Este es un error lexico: "+yytext()+", en la linea: "+yyline+", en la columna: "+yychar);

@@ -5,12 +5,19 @@
  */
 package compiproyecto1;
 
+import ANALIZADOR2.LEXER1;
+import ANALIZADOR2.sintactico;
+import java.io.StringReader;
+import java.util.LinkedList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author carcu
  */
 public class PRINCIPAL extends javax.swing.JFrame {
-
+ public static LinkedList<String> COMS = new LinkedList<>();
+ public static LinkedList<String> COMM = new LinkedList<>();
     /**
      * Creates new form PRINCIPAL
      */
@@ -75,6 +82,11 @@ public class PRINCIPAL extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("EJECUTAR");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("REPORTES");
@@ -137,6 +149,23 @@ public class PRINCIPAL extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        // TODO add your handling code here:
+         String entrada = jTextArea1.getText();
+         if (entrada.equals("")) {
+            return;
+        }
+         //analizar la primera entrada
+         ANALIZADOR2.LEXER1 LEXICO1 = new  LEXER1(new StringReader(entrada));
+         ANALIZADOR2.sintactico SINTACTICO1 = new sintactico(LEXICO1);
+         try {
+             SINTACTICO1.parse();
+             JOptionPane.showMessageDialog(null, "ANALISIS FINALIZADO !");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "ANALISIS ERRONEO !"+e.getCause());
+        }
+    }//GEN-LAST:event_jMenu2MouseClicked
 
     /**
      * @param args the command line arguments
