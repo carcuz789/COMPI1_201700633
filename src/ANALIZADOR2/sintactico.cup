@@ -16,9 +16,12 @@ parser code
     public String crt2="";
     public String conca="";
     public String concat="";
-    public GRAFBARRAS GRAFICABARRAS ;
-    public GRAFLINEAS GRAFICALINEAS;
-    public GRAFPIE GRAFICAPIE ;
+    public GRAFBARRAS GRAFICABARRAS = new GRAFBARRAS();;
+    public GRAFLINEAS GRAFICALINEAS = new GRAFLINEAS();
+    public GRAFPIE GRAFICAPIE =new GRAFPIE();
+    public ArrayList<GRAFBARRAS> GRAFICASBARRAS = new ArrayList<>();
+    public ArrayList<GRAFLINEAS> GRAFICASLINEAS = new ArrayList<>();
+    public ArrayList<GRAFPIE> GRAFICASPIE = new ArrayList<>();
     public ArrayList<VARGLOB> VARIABLESGLOBALES = new ArrayList<>();
     public ArrayList<COMPARE> COMP = new ArrayList<>(); 
     public ArrayList<String> EJEX1 = new ArrayList<>(); 
@@ -35,9 +38,10 @@ parser code
 :};
 
 terminal String  ptcoma,parizq,parder,archivo,corcheteabierto,corchetecerrado,llaveabierta,llavecerrada,
-definirglobales,generarreporteestadistico,compare,graficabarras,titulo,ejex,valores,titulox,tituloy,graficapie,graficalienas,decimal,id,cadenastring,dospuntos,coma,string ,doublee,igual,pgen,pesp;
+definirglobales,generarreporteestadistico,compare,graficabarras,titulo,ejex,valores,titulox,tituloy,graficapie,graficalienas,decimal,id,cadenastring,dospuntos,
+coma,string ,doublee,igual,pgen,pesp;
 
-non terminal String INICIO ,GR,DG,GB,GP,GL,EJXB,VALB,EJXP,VALP;
+non terminal String INICIO ,GR,DG,GB,GP,GL,EJXB,VALB,EJXP,VALP,GLOP,VARIANTES,VARIANTES2,VARIANTES3,VARIANTES4;
 
 start with INICIO;
 
@@ -48,14 +52,14 @@ INICIO ::=
 GR ::=
      GR definirglobales llaveabierta  DG llavecerrada   {: :} |
      GR compare parizq cadenastring:car1 coma cadenastring:car2 parder ptcoma {: parser.COMP.add(new COMPARE(car1,car2,"no","no")); :}|
-     GR graficabarras llaveabierta GB llavecerrada {: :} |
-     GR graficapie llaveabierta GP llavecerrada  {: :} |
-     GR graficalienas llaveabierta GL llavecerrada {: :} |
+     GR graficabarras llaveabierta GB llavecerrada {: GRAFICASBARRAS.add(GRAFICABARRAS); GRAFICABARRAS= new GRAFBARRAS();:} |
+     GR graficapie llaveabierta GP llavecerrada  {: GRAFICASPIE.add(GRAFICAPIE);GRAFICAPIE = new GRAFPIE(); :} |
+     GR graficalienas llaveabierta GL llavecerrada {:GRAFICASLINEAS.add(GRAFICALINEAS);GRAFICALINEAS= new GRAFLINEAS(); :} |
      definirglobales llaveabierta  DG llavecerrada {: :} |
      compare parizq cadenastring:car3 coma cadenastring:car4 parder ptcoma {: parser.COMP.add(new COMPARE(car3,car4,"no","no")); :}|
-     graficabarras llaveabierta GB  llavecerrada {: :} |
-     graficapie llaveabierta GP llavecerrada {: :} |
-     graficalienas llaveabierta GL llavecerrada {: :} 
+     graficabarras llaveabierta GB  llavecerrada {:GRAFICASBARRAS.add(GRAFICABARRAS); GRAFICABARRAS= new GRAFBARRAS(); :} |
+     graficapie llaveabierta GP llavecerrada {: GRAFICASPIE.add(GRAFICAPIE);GRAFICAPIE = new GRAFPIE(); :} |
+     graficalienas llaveabierta GL llavecerrada {: GRAFICASLINEAS.add(GRAFICALINEAS);GRAFICALINEAS= new GRAFLINEAS();:} 
      ;
    
 
@@ -75,16 +79,16 @@ DG ::=
 GB ::= 
      GB titulo dospuntos id:idtit1  ptcoma {: String id = idtit1; parser.GRAFICABARRAS.setTitulo(id); :} |
      GB titulo dospuntos cadenastring:idtit  ptcoma {: String id = idtit; parser.GRAFICABARRAS.setTitulo(id); :} |
-     GB ejex dospuntos EJXB {: :} |
-     GB valores dospuntos VALB {: :} |
+     GB ejex  EJXB {: :} |
+     GB valores  VALB {: :} |
      GB titulox dospuntos id:idtit2  ptcoma {: String id = idtit2; parser.GRAFICABARRAS.setTitulox(id); :} |
      GB tituloy dospuntos id:idtit3  ptcoma {: String id = idtit3; parser.GRAFICABARRAS.setTituloy(id); :} |
      GB titulox dospuntos cadenastring:idtit33  ptcoma {: String id = idtit33; parser.GRAFICABARRAS.setTitulox(id); :} |
      GB tituloy dospuntos cadenastring:idtit11  ptcoma {: String id = idtit11; parser.GRAFICABARRAS.setTituloy(id); :} |
      titulo dospuntos id:idtit5  ptcoma {: String id = idtit5; parser.GRAFICABARRAS.setTitulo(id); :} |
      titulo dospuntos cadenastring:idtit44  ptcoma {: String id = idtit44; parser.GRAFICABARRAS.setTitulo(id); :} |
-     ejex dospuntos EJXB   {: :} |
-     valores dospuntos VALB {: :} |
+     ejex  EJXB   {: :} |
+     valores  VALB {: :} |
      titulox dospuntos id:idtit12  ptcoma {: String id = idtit12; parser.GRAFICABARRAS.setTitulox(id); :} |
      tituloy dospuntos id:idtit21  ptcoma {: String id = idtit21; parser.GRAFICABARRAS.setTituloy(id); :} |
      titulox dospuntos cadenastring:idtit55  ptcoma {: String id1 = idtit55; parser.GRAFICABARRAS.setTitulox(id1); :} |
@@ -92,86 +96,85 @@ GB ::=
       ;
  
 
-EJXB::=
-    EJXB corcheteabierto {: :} |
-    EJXB id:idtit {: String id1=idtit; parser.EJEX1.add(id1); :} |
-    EJXB cadenastring:cadst {: String id2 = cadst; parser.EJEX1.add(id2); :} |
-    EJXB coma{: :} |
-    EJXB decimal:dec {:String id55=dec; parser.EJEX1.add(id55); :} |
-    EJXB pgen:puntgen {:String id3=puntgen; parser.EJEX1.add(id3); :} |
-    EJXB pesp:puntesp {:String id4=puntesp; parser.EJEX1.add(id4); :} |
-    id:idtit1 {: String id5 =idtit1; parser.EJEX1.add(id5); :} |
-    cadenastring:cadst1 {: String id6 =cadst1; parser.EJEX1.add(id6); :} |
-    pgen:puntgen1 {:String id7 =puntgen1; parser.EJEX1.add(id7); :} |
-    pesp:puntesp1 {: String id8 =puntesp1; parser.EJEX1.add(id8); :} |
-    decimal:decs {:String id557=decs; parser.EJEX1.add(id557); :} |
-    corchetecerrado ptcoma {:parser.GRAFICABARRAS.setEJEX(EJEX1); :} ;
+EJXB::= dospuntos corcheteabierto VARIANTES corchetecerrado ptcoma {:parser.GRAFICABARRAS.setEJEX(EJEX1); :} ;
 
-VALB::= 
-    VALB corcheteabierto {: :} |
-    VALB id:idtit {: String id1=idtit; parser.VALORES1.add(id1); :} |
-    VALB cadenastring:cadst {: String id2 = cadst; parser.VALORES1.add(id2); :} |
-    VALB coma{: :} |
-    VALB decimal:decs {:String id3=decs; parser.VALORES1.add(id3); :} |
-    VALB pgen:puntgen {:String id3=puntgen; parser.VALORES1.add(id3); :} |
-    VALB pesp:puntesp {:String id4=puntesp; parser.VALORES1.add(id4); :} |
-    id:idtit1 {: String id5 =idtit1; parser.VALORES1.add(id5); :} |
-    cadenastring:cadst1 {: String id6 =cadst1; parser.VALORES1.add(id6); :} |
-    pgen:puntgen1 {:String id7 =puntgen1; parser.VALORES1.add(id7); :} |
-    pesp:puntesp1 {: String id8 =puntesp1; parser.VALORES1.add(id8); :} |
-    decimal:decs1 {:String id3=decs1; parser.VALORES1.add(id3); :} |
-    corchetecerrado ptcoma {: parser.GRAFICABARRAS.setVALORES(VALORES1); :} ;
+VARIANTES ::= VARIANTES coma
+             |VARIANTES id:idtit {: String id1=idtit; parser.EJEX1.add(id1); :}
+             |VARIANTES cadenastring:cadst {: String id2 = cadst; parser.EJEX1.add(id2); :}
+             |VARIANTES decimal:dec {:String id55=dec; parser.EJEX1.add(id55); :} 
+             |VARIANTES pgen:puntgen {:String id3=puntgen; parser.EJEX1.add(id3); :}
+             |VARIANTES pesp:puntesp {:String id4=puntesp; parser.EJEX1.add(id4); :}
+             | id:idtit {: String id1=idtit; parser.EJEX1.add(id1); :}
+             | cadenastring:cadst {: String id2 = cadst; parser.EJEX1.add(id2); :}
+             | decimal:dec {:String id55=dec; parser.EJEX1.add(id55); :} 
+             | pgen:puntgen {:String id3=puntgen; parser.EJEX1.add(id3); :}
+             | pesp:puntesp {:String id4=puntesp; parser.EJEX1.add(id4); :};
+             
+
+VALB::= dospuntos corcheteabierto  VARIANTES2 corchetecerrado ptcoma {: parser.GRAFICABARRAS.setVALORES(VALORES1); :} ;
+
+VARIANTES2::= VARIANTES2 coma
+             |VARIANTES2 id:idtit {: String id1=idtit; parser.VALORES1.add(id1); :} 
+             |VARIANTES2 cadenastring:cadst {: String id2 = cadst; parser.VALORES1.add(id2); :}
+             |VARIANTES2 decimal:decs {:String id3=decs; parser.VALORES1.add(id3); :} 
+             |VARIANTES2 pgen:puntgen {:String id3=puntgen; parser.VALORES1.add(id3); :}
+             |VARIANTES2 pesp:puntesp {:String id4=puntesp; parser.VALORES1.add(id4); :}
+             |id:idtit {: String id1=idtit; parser.VALORES1.add(id1); :} 
+             |cadenastring:cadst {: String id2 = cadst; parser.VALORES1.add(id2); :}
+             |decimal:decs {:String id3=decs; parser.VALORES1.add(id3); :} 
+             |pgen:puntgen {:String id3=puntgen; parser.VALORES1.add(id3); :}
+             |pesp:puntesp {:String id4=puntesp; parser.VALORES1.add(id4); :};
+
+
 
 GP ::= 
      GP titulo dospuntos id:idtit  ptcoma {: String id = idtit; parser.GRAFICAPIE.setTitulo(id); :} |
      GP titulo dospuntos cadenastring:idtit1  ptcoma {: String id = idtit1; parser.GRAFICAPIE.setTitulo(id); :} |
-     GP ejex dospuntos EJXP {: :} |
-     GP valores dospuntos VALP {: :} |
+     GP ejex  EJXP {: :} |
+     GP valores  VALP {: :} |
      titulo dospuntos id:idtit2  ptcoma {: String id = idtit2; parser.GRAFICAPIE.setTitulo(id); :} |
      titulo dospuntos cadenastring:idtit3  ptcoma {: String id = idtit3; parser.GRAFICAPIE.setTitulo(id); :} |
-     ejex dospuntos EJXP   {: :} |
-     valores dospuntos VALP {: :} 
+     ejex  EJXP   {: :} |
+     valores  VALP {: :} 
       ;
-   
-EJXP::=
-    EJXP corcheteabierto {: :} |
-    EJXP id:idtit {: String id1=idtit; parser.EJEX2.add(id1); :} |
-    EJXP cadenastring:cadst {: String id2 = cadst; parser.EJEX2.add(id2); :} |
-    EJXP coma{: :} |
-    EJXP decimal:dec {:String id55=dec; parser.EJEX2.add(id55); :} |
-    EJXP pgen:puntgen {:String id3=puntgen; parser.EJEX2.add(id3); :} |
-    EJXP pesp:puntesp {:String id4=puntesp; parser.EJEX2.add(id4); :} |
-    id:idtit1 {: String id5 =idtit1; parser.EJEX2.add(id5); :} |
-    cadenastring:cadst1 {: String id6 =cadst1; parser.EJEX2.add(id6); :} |
-    pgen:puntgen1 {:String id7 =puntgen1; parser.EJEX2.add(id7); :} |
-    pesp:puntesp1 {: String id8 =puntesp1; parser.EJEX2.add(id8); :} |
-    decimal:decs {:String id557=decs; parser.EJEX2.add(id557); :} |
-    corchetecerrado ptcoma {:parser.GRAFICAPIE.setEJEX(EJEX2); :} ;
 
-VALP::=
-    VALP corcheteabierto {: :} |
-    VALP id:idtit {: String id1=idtit; parser.VALORES2.add(id1); :} |
-    VALP cadenastring:cadst {: String id2 = cadst; parser.VALORES1.add(id2); :} |
-    VALP coma{: :} |
-    VALP decimal:decs {:String id3=decs; parser.VALORES2.add(id3); :} |
-    VALP pgen:puntgen {:String id3=puntgen; parser.VALORES2.add(id3); :} |
-    VALP pesp:puntesp {:String id4=puntesp; parser.VALORES2.add(id4); :} |
-    id:idtit1 {: String id5 =idtit1; parser.VALORES2.add(id5); :} |
-    cadenastring:cadst1 {: String id6 =cadst1; parser.VALORES2.add(id6); :} |
-    pgen:puntgen1 {:String id7 =puntgen1; parser.VALORES2.add(id7); :} |
-    pesp:puntesp1 {: String id8 =puntesp1; parser.VALORES2.add(id8); :} |
-    decimal:decs1 {:String id3=decs1; parser.VALORES2.add(id3); :} |
-    corchetecerrado ptcoma {: parser.GRAFICAPIE.setVALORES(VALORES2); :} ;
+EJXP::= dospuntos corcheteabierto VARIANTES3 corchetecerrado ptcoma {:parser.GRAFICAPIE.setEJEX(EJEX2); :} ;
+
+VARIANTES3::= VARIANTES3 coma
+             |VARIANTES3 id:idtit {: String id1=idtit; parser.EJEX2.add(id1); :}
+             |VARIANTES3 cadenastring:cadst {: String id2 = cadst; parser.EJEX2.add(id2); :}
+             |VARIANTES3 decimal:dec {:String id55=dec; parser.EJEX2.add(id55); :} 
+             |VARIANTES3 pgen:puntgen {:String id3=puntgen; parser.EJEX2.add(id3); :} 
+             |VARIANTES3 pesp:puntesp {:String id4=puntesp; parser.EJEX2.add(id4); :} 
+             | id:idtit {: String id1=idtit; parser.EJEX2.add(id1); :}
+             | cadenastring:cadst {: String id2 = cadst; parser.EJEX2.add(id2); :}
+             | decimal:dec {:String id55=dec; parser.EJEX2.add(id55); :} 
+             | pgen:puntgen {:String id3=puntgen; parser.EJEX2.add(id3); :} 
+             | pesp:puntesp {:String id4=puntesp; parser.EJEX2.add(id4); :} ;
+
+VALP::= dospuntos corcheteabierto  VARIANTES4 corchetecerrado ptcoma {: parser.GRAFICAPIE.setVALORES(VALORES2);:} ;
+
+VARIANTES4::= VARIANTES2 coma
+             |VARIANTES2 id:idtit {: String id1=idtit; parser.VALORES2.add(id1); :}
+             |VARIANTES2 cadenastring:cadst {: String id2 = cadst; parser.VALORES1.add(id2); :}
+             |VARIANTES2 decimal:decs {:String id3=decs; parser.VALORES2.add(id3); :} 
+             |VARIANTES2 pgen:puntgen {:String id3=puntgen; parser.VALORES2.add(id3); :}
+             |VARIANTES2 pesp:puntesp {:String id4=puntesp; parser.VALORES2.add(id4); :}
+             |id:idtit {: String id1=idtit; parser.VALORES2.add(id1); :}
+             |cadenastring:cadst {: String id2 = cadst; parser.VALORES1.add(id2); :}
+             |decimal:decs {:String id3=decs; parser.VALORES2.add(id3); :} 
+             |pgen:puntgen {:String id3=puntgen; parser.VALORES2.add(id3); :}
+             |pesp:puntesp {:String id4=puntesp; parser.VALORES2.add(id4); :};
 
 
-GL ::=
-     GL titulo dospuntos id:idtit  ptcoma {: String id = idtit; parser.GRAFICALINEAS.setTitulo(id); :} |
-     GL titulo dospuntos cadenastring:idtit1  ptcoma {: String id = idtit1; parser.GRAFICALINEAS.setTitulo(id); :} |
-     GL archivo dospuntos id:idtit2  ptcoma {: String id = idtit2; parser.GRAFICALINEAS.setTitulo(id); :} |
-     GL archivo dospuntos cadenastring:idtit3  ptcoma {: String id = idtit3; parser.GRAFICALINEAS.setTitulo(id); :} |
-     titulo dospuntos id:idtit  ptcoma {: String id = idtit; parser.GRAFICALINEAS.setTitulo(id); :} |
-     titulo dospuntos cadenastring:idtit1  ptcoma {: String id = idtit1; parser.GRAFICALINEAS.setTitulo(id); :} |
-     archivo dospuntos id:idtit2  ptcoma {: String id = idtit2; parser.GRAFICALINEAS.setTitulo(id); :} |
-     archivo dospuntos cadenastring:idtit3  ptcoma {: String id = idtit3; parser.GRAFICALINEAS.setTitulo(id); :} 
+
+
+GL ::= GL titulo GLOP   
+      |GL archivo GLOP   
+      |titulo  GLOP
+      |archivo GLOP
      ;
    
+GLOP ::= 
+        dospuntos id:idtit2  ptcoma {: String id = idtit2; parser.GRAFICALINEAS.setTitulo(id); :} |
+        dospuntos cadenastring:idtit3  ptcoma {: String id2 = idtit3; parser.GRAFICALINEAS.setTitulo(id2); :} ;

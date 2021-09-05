@@ -17,7 +17,7 @@ import java.util.LinkedList;
    
 %init} 
 
-BLANCOS=[ \r\t]+
+BLANCOS=[ \s|\t|\r|\n]+
 cadenas="\""[^\"]*"\""
 DD=[0-9]+("."[  |0-9]+)?
 

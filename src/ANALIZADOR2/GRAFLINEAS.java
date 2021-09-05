@@ -29,9 +29,6 @@ public class GRAFLINEAS {
         this.archivo = archivo;
     }
 
-    public GRAFLINEAS(String titulo, String archivo) {
-        this.titulo = titulo;
-        this.archivo = archivo;
-    }
+    
      
 }

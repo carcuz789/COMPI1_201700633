@@ -18,7 +18,7 @@ import java_cup.runtime.Symbol;
 %init} 
 
 
-BLANCOS=[ \s,\t,\r,\n]+
+BLANCOS=[ \s|\t|\r|\n]+
 L=[a-zA-Z_]+
 D=[0-9]+
 DD=[0-9]+("."[  |0-9]+)?

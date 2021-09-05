@@ -165,6 +165,7 @@ public class PRINCIPAL extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ANALISIS ERRONEO !"+e.getCause());
         }
+         
     }//GEN-LAST:event_jMenu2MouseClicked
 
     /**
